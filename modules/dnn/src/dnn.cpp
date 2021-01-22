@@ -5202,6 +5202,9 @@ static LayerFactory_Impl& getLayerFactoryImpl()
     return *instance;
 }
 
+
+std::map<String, int> LayerFactory::registeredTypes = {};
+
 void LayerFactory::registerLayer(const String &type, Constructor constructor)
 {
     CV_TRACE_FUNCTION();
@@ -5217,6 +5220,7 @@ void LayerFactory::registerLayer(const String &type, Constructor constructor)
         it->second.push_back(constructor);
     }
     getLayerFactoryImpl().insert(std::make_pair(type, std::vector<Constructor>(1, constructor)));
+    registeredTypes.insert(std::make_pair(type, 1));
 }
 
 void LayerFactory::unregisterLayer(const String &type)
